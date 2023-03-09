@@ -7,6 +7,7 @@ import (
 	"github.com/aria3ppp/grpc-telephone-service/gapi"
 	"github.com/aria3ppp/grpc-telephone-service/pb"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
@@ -16,6 +17,7 @@ func main() {
 	}
 
 	server := grpc.NewServer()
+	reflection.Register(server) // enable server reflection
 	pb.RegisterTelephoneServer(server, gapi.NewServer())
 
 	log.Printf("grpc server is running on %s...", l.Addr().String())
