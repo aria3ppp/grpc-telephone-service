@@ -1,0 +1,55 @@
+syntax = "proto3";
+option go_package = "github.com/aria3ppp/grpc-telephone-service/pb";
+
+package telephone_service;
+
+
+service Telephone {
+    // Simple RPC
+    rpc GetContact(GetContactRequest) returns (GetContactResponse) {}
+
+    // Server-Side streaming RPC
+    rpc ListContacts(ListContactsRequest) returns (stream ListContactsResponse) {}
+
+    // Client-Side streaming RPC 
+    rpc AddContact(stream AddContactRequest) returns (AddContactResponse) {}
+
+    // Bidirectional streaming RPC
+    rpc SendMessage(stream SendMessageRequest) returns (stream SendMessageResponse) {}
+}
+
+message GetContactRequest {
+    string number = 1;
+}
+
+message GetContactResponse {
+    string name = 1;
+    string lastname = 2;
+    string number = 3;
+}
+
+message ListContactsRequest{}
+
+message ListContactsResponse {
+    string name = 1;
+    string lastname = 2;
+    string number = 3;
+}
+
+message AddContactRequest{
+    string name = 1;
+    string lastname = 2;
+    string number = 3;
+}
+
+message AddContactResponse {
+    int32 contacts_count = 1;
+}
+
+message SendMessageRequest {
+    string msg = 1;
+}
+
+message SendMessageResponse {
+    string msg = 1;
+}
