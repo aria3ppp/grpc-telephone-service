@@ -19,7 +19,7 @@ import (
 )
 
 func setup(ctx context.Context) (client pb.TelephoneClient, teardown func()) {
-	listener := bufconn.Listen(101024 * 1024)
+	listener := bufconn.Listen(1024 * 1024)
 
 	server := grpc.NewServer()
 	pb.RegisterTelephoneServer(server, gapi.NewServer())
