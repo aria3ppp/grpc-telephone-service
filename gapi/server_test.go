@@ -26,7 +26,7 @@ func setup(ctx context.Context) (client pb.TelephoneClient, teardown func()) {
 
 	go func() {
 		if err := server.Serve(listener); err != nil {
-			log.Fatal("setup: failed to serve server:", err)
+			log.Fatal("gapi_test.setup: failed to serve server:", err)
 		}
 	}()
 
@@ -41,13 +41,16 @@ func setup(ctx context.Context) (client pb.TelephoneClient, teardown func()) {
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {
-		log.Fatal("setup: failed to dial server:", err)
+		log.Fatal("gapi_test.setup: failed to dial server:", err)
 	}
 
 	// prepare teardown function
 	teardown = func() {
+		if err := conn.Close(); err != nil {
+			log.Fatal("gapi_test.teardown: failed to close connection")
+		}
 		if err := listener.Close(); err != nil {
-			log.Fatal("teardown: failed to close listener:", err)
+			log.Fatal("gapi_test.teardown: failed to close listener:", err)
 		}
 		server.Stop()
 	}
